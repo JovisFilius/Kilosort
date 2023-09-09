@@ -776,7 +776,7 @@ classdef ksGUI < handle
         
         function runSpikesort(obj)
             % fit templates
-            try
+            % try
                 % pre-clustering to re-order batches by depth
 %                 obj.log('Pre-clustering to re-order batches by depth')
 %                 obj.rez = clusterSingleBatches(obj.rez);
@@ -807,9 +807,9 @@ classdef ksGUI < handle
                 obj.log('Kilosort finished!');
                 set(obj.H.settings.runSaveBtn, 'enable', 'on');
                 obj.updateDataView();
-            catch ex
-                obj.log(sprintf('Error running kilosort! %s', ex.message));
-            end   
+            % catch ex
+                % obj.log(sprintf('Error running kilosort! %s', ex.message));
+            % end   
                         
         end
         
@@ -826,11 +826,11 @@ classdef ksGUI < handle
             fname = fullfile(obj.ops.saveDir, 'rez.mat');
             save(fname, 'rez', '-v7.3');
             
-            try
+            % try
                 rezToPhy(obj.rez, obj.ops.saveDir);
-            catch ex
-                obj.log(sprintf('Error saving data for phy! %s', ex.message));
-            end            
+            % catch ex
+                % obj.log(sprintf('Error saving data for phy! %s', ex.message));
+            % end            
             obj.log('Done');
         end
             

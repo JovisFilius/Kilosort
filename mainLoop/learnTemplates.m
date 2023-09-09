@@ -224,8 +224,12 @@ for ibatch = 1:niter
                 dWU0 = double(dWU0);
                 dWU0 = reshape(wPCAd * (wPCAd' * dWU0(:,:)), size(dWU0)); % apply PCA for smoothing purposes
                 dWU = cat(3, dWU, dWU0);
-                
+                try
                 W(:,Nfilt + [1:size(dWU0,3)],:) = W0(:,ones(1,size(dWU0,3)),:); % initialize temporal components of waveforms
+                catch
+                    W(:,Nfilt + [1:size(dWU0,3)],:) = W0(:,ones(1,size(dWU0,3)),:); % initialize temporal components of waveforms
+                end
+
                 
                 nsp(Nfilt + [1:size(dWU0,3)]) = ops.minFR * NT/ops.fs; % initialize the number of spikes with the minimum allowed
                 mu(Nfilt + [1:size(dWU0,3)])  = 10; % initialize the amplitude of this spike with a lowish number
@@ -244,8 +248,13 @@ for ibatch = 1:niter
         
     if (rem(ibatch, 100)==1)
         % this is some of the relevant diagnostic information to be printed during training
+        try
         fprintf('%2.2f sec, %d / %d batches, %d units, nspks: %2.4f, mu: %2.4f, nst0: %d, merges: %2.4f, %2.4f, %2.4f \n', ...
             toc, ibatch, niter, Nfilt, sum(nsp), median(mu), numel(st0), ndrop)
+        catch e
+            fprintf('%2.2f sec, %d / %d batches, %d units, nspks: %2.4f, mu: %2.4f, nst0: %d, merges: %2.4f, %2.4f, %2.4f \n', ...
+            toc, ibatch, niter, Nfilt, sum(nsp), median(mu), numel(st0), ndrop)
+        end
 
         % these diagnostic figures should be mostly self-explanatory
         if ops.fig
