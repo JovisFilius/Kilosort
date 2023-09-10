@@ -27,5 +27,9 @@ if nargin>2 && nargout>1
 
     [~, isort] = sort(cc, 1, 'descend');
     iNear = rem([1:Nnearest]-1, Nfilt) + 1;% if we don't have enough templates yet, just wrap the indices around the range 1:Nfilt
-    iList = int32(gpuArray(isort(iNear, :))); % return the list of pairs for each template
+    try
+        iList = int32(gpuArray(isort(iNear, :))); % return the list of pairs for each template
+    catch ME
+        iList = int32(gpuArray(isort(iNear, :))); % return the list of pairs for each template
+    end
 end
