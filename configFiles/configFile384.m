@@ -8,7 +8,7 @@ ops.fs = 30000;
 ops.fshigh = 150;   
 
 % minimum firing rate on a "good" channel (0 to skip)
-ops.minfr_goodchannels = 0.1; 
+ops.minfr_goodchannels = 0.01; 
 
 % threshold on projections (like in Kilosort1, can be different for last pass like [10 4])
 ops.Th = [10 4];  
@@ -20,7 +20,7 @@ ops.lam = 10;
 ops.AUCsplit = 0.9; 
 
 % minimum spike rate (Hz), if a cluster falls below this for too long it gets removed
-ops.minFR = 1/50; 
+ops.minFR = 1/100; 
 
 % number of samples to average over (annealed from first to second value) 
 ops.momentum = [20 400]; 
@@ -29,7 +29,7 @@ ops.momentum = [20 400];
 ops.sigmaMask = 30; 
 
 % threshold crossings for pre-clustering (in PCA projection space)
-ops.ThPre = 8; 
+ops.ThPre = 8;
 %% danger, changing these settings can lead to fatal errors
 % options for determining PCs
 ops.spkTh           = -6;      % spike threshold in standard deviations (-6)

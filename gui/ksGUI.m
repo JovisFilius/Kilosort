@@ -437,23 +437,23 @@ classdef ksGUI < handle
             
             % get gui defaults/remembered settings
             obj.P.settingsPath = fullfile(mfPath, 'userSettings.mat');
-            if exist(obj.P.settingsPath, 'file')
-                savedSettings = load(obj.P.settingsPath);
-                if isfield(savedSettings, 'lastFile')
-                    obj.H.settings.ChooseFileEdt.String = savedSettings.lastFile;
-                    obj.log('Initializing with last used file.');
-                    try
-                        obj.restoreGUIsettings();
-                        obj.updateProbeView('new');
-                        obj.updateFileSettings();
-                    catch ex
-                        obj.log('Failed to initialize last file.');
-%                         keyboard
-                    end
-                end
-            else
+%             if exist(obj.P.settingsPath, 'file')
+%                 savedSettings = load(obj.P.settingsPath);
+%                 if isfield(savedSettings, 'lastFile')
+%                     obj.H.settings.ChooseFileEdt.String = savedSettings.lastFile;
+%                     obj.log('Initializing with last used file.');
+%                     try
+%                         obj.restoreGUIsettings();
+%                         obj.updateProbeView('new');
+%                         obj.updateFileSettings();
+%                     catch ex
+%                         obj.log('Failed to initialize last file.');
+% %                         keyboard
+%                     end
+%                 end
+%             else
                 obj.log('Select a data file (upper left) to begin.');
-            end
+            % end
             
 %             obj.updateProbeView('new');
             
@@ -540,8 +540,8 @@ classdef ksGUI < handle
                 end
                 obj.updateDataView()
 
-                lastFile = obj.H.settings.ChooseFileEdt.String;
-                save(obj.P.settingsPath, 'lastFile');
+                % lastFile = obj.H.settings.ChooseFileEdt.String;
+                % save(obj.P.settingsPath, 'lastFile');
 
                 if obj.P.probeGood
                     set(obj.H.settings.runBtn, 'enable', 'on');
@@ -724,7 +724,7 @@ classdef ksGUI < handle
             
             % do preprocessing
             obj.ops.gui = obj; % for kilosort to access, e.g. calling "log"
-            try
+            % try
                 obj.log('Preprocessing...'); 
                 obj.rez = preprocessDataSub(obj.ops);
                 
@@ -752,10 +752,10 @@ classdef ksGUI < handle
                 % update gui with results of preprocessing
                 obj.updateDataView();
                 obj.log('Done preprocessing.'); 
-            catch ex
-                obj.log(sprintf('Error preprocessing! %s', ex.message));
-                keyboard
-            end
+            % catch ex
+                % obj.log(sprintf('Error preprocessing! %s', ex.message));
+                % keyboard
+            % end
             
         end
         
@@ -1477,36 +1477,36 @@ classdef ksGUI < handle
             obj.updateDataView;
         end
             
-        
-        function saveGUIsettings(obj)
-            
-            saveDat.settings.ChooseFileEdt.String = obj.H.settings.ChooseFileEdt.String;
-            saveDat.settings.ChooseTempdirEdt.String = obj.H.settings.ChooseTempdirEdt.String;
-            saveDat.settings.setProbeEdt.String = obj.H.settings.setProbeEdt.String;
-            saveDat.settings.setProbeEdt.Value = obj.H.settings.setProbeEdt.Value;
-            saveDat.settings.setnChanEdt.String = obj.H.settings.setnChanEdt.String;
-            saveDat.settings.setFsEdt.String = obj.H.settings.setFsEdt.String;
-            saveDat.settings.setThEdt.String = obj.H.settings.setThEdt.String;
-            saveDat.settings.setLambdaEdt.String = obj.H.settings.setLambdaEdt.String;
-            saveDat.settings.setCcsplitEdt.String = obj.H.settings.setCcsplitEdt.String;
-            saveDat.settings.setMinfrEdt.String = obj.H.settings.setMinfrEdt.String;
-            
-            saveDat.ops = obj.ops;
-            saveDat.ops.gui = [];
-            saveDat.rez = obj.rez;
-            saveDat.rez.cProjPC = []; 
-            saveDat.rez.cProj = []; 
-            saveDat.rez.ops.gui = [];
-            saveDat.P = obj.P;
-            
-            if ~strcmp(obj.H.settings.ChooseFileEdt.String, '...')
-                [p,fn] = fileparts(obj.H.settings.ChooseFileEdt.String);            
-                savePath = fullfile(p, [fn '_ksSettings.mat']);
-                save(savePath, 'saveDat', '-v7.3');
-            end            
-            
-            %obj.refocus(obj.H.settings.saveBtn);
-        end
+
+        % function saveGUIsettings(obj)
+        % 
+        %     saveDat.settings.ChooseFileEdt.String = obj.H.settings.ChooseFileEdt.String;
+        %     saveDat.settings.ChooseTempdirEdt.String = obj.H.settings.ChooseTempdirEdt.String;
+        %     saveDat.settings.setProbeEdt.String = obj.H.settings.setProbeEdt.String;
+        %     saveDat.settings.setProbeEdt.Value = obj.H.settings.setProbeEdt.Value;
+        %     saveDat.settings.setnChanEdt.String = obj.H.settings.setnChanEdt.String;
+        %     saveDat.settings.setFsEdt.String = obj.H.settings.setFsEdt.String;
+        %     saveDat.settings.setThEdt.String = obj.H.settings.setThEdt.String;
+        %     saveDat.settings.setLambdaEdt.String = obj.H.settings.setLambdaEdt.String;
+        %     saveDat.settings.setCcsplitEdt.String = obj.H.settings.setCcsplitEdt.String;
+        %     saveDat.settings.setMinfrEdt.String = obj.H.settings.setMinfrEdt.String;
+        % 
+        %     saveDat.ops = obj.ops;
+        %     saveDat.ops.gui = [];
+        %     saveDat.rez = obj.rez;
+        %     saveDat.rez.cProjPC = []; 
+        %     saveDat.rez.cProj = []; 
+        %     saveDat.rez.ops.gui = [];
+        %     saveDat.P = obj.P;
+        % 
+        %     if ~strcmp(obj.H.settings.ChooseFileEdt.String, '...')
+        %         [p,fn] = fileparts(obj.H.settings.ChooseFileEdt.String);            
+        %         savePath = fullfile(p, [fn '_ksSettings.mat']);
+        %         save(savePath, 'saveDat', '-v7.3');
+        %     end            
+        % 
+        %     %obj.refocus(obj.H.settings.saveBtn);
+        % end
         
         function restoreGUIsettings(obj)
             [p,fn] = fileparts(obj.H.settings.ChooseFileEdt.String);            
@@ -1577,9 +1577,9 @@ classdef ksGUI < handle
         end
         
         function cleanup(obj)
-            if ~isfield(obj.P, 'skipSave')
-                obj.saveGUIsettings();
-            end
+            % if ~isfield(obj.P, 'skipSave')
+            %     obj.saveGUIsettings();
+            % end
             fclose('all');
         end
         
