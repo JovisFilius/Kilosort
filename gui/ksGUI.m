@@ -720,7 +720,7 @@ classdef ksGUI < handle
             
             % do preprocessing
             obj.ops.gui = obj; % for kilosort to access, e.g. calling "log"
-            try
+            % try
                 obj.log('Preprocessing...'); 
                 obj.rez = preprocessDataSub(obj.ops);
                 obj.rez = datashift2(obj.rez, 1);
@@ -749,10 +749,10 @@ classdef ksGUI < handle
                 % update gui with results of preprocessing
                 obj.updateDataView();
                 obj.log('Done preprocessing.'); 
-            catch ex
-                obj.log(sprintf('Error preprocessing! %s', ex.message));
-                keyboard
-            end
+            % catch ex
+                % obj.log(sprintf('Error preprocessing! %s', ex.message));
+                % keyboard
+            % end
             
         end
         
@@ -1606,6 +1606,7 @@ classdef ksGUI < handle
                 configFile384;  
                 ops.trange      = [0 Inf];
             else
+                warning("Could not find `configFile384.m`")
                 ops = [];
             end
         end
